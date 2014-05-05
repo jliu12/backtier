@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-	attr_accessible :user_name, :user_real_name, :password, :password_confirmation, :user_last_lat, :user_last_long, :user_last_time, :phone_number
 	has_many :invitations
 	has_and_belongs_to_many :events
 	has_many :messages

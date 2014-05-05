@@ -1,0 +1,64 @@
+<% @title = "User Index" %>
+<div class="wrapper">
+	<h2>Index</h2>
+	<% if flash[:message] %>
+		<p><span><%=flash[:message]%></span></p>
+	<% end %>
+
+	<%= form_for(@user, :url => {:action => :create}) do |form| %>
+		<table class="form">
+			<tr>
+				<td class="label">Username:</td>
+				<td><%= form.text_field(:user_name) %></td>
+			</tr>
+			<tr>
+				<td class="label">Name: </td>
+				<td><%= form.text_field(:user_real_name) %> </td>
+			</tr>
+			<tr>
+				<td class="label">Phone Number: </td>
+				<td><%= form.text_field(:phone_number) %></td>
+			</tr>
+			<tr>
+				<td class="label">Latitude: </td>
+				<td><%= form.text_field(:user_last_lat) %></td>
+			</tr>			
+			<tr>
+				<td class="label">Longitude: </td>
+				<td><%= form.text_field(:user_last_long) %></td>
+			</tr>			
+			<tr>
+				<td class="label">Password: </td>
+				<td><%= form.password_field(:password) %></td>
+			</tr>
+			<tr>
+				<td class="label">Confirm Password: </td>
+				<td><%= form.password_field(:password_confirmation)%></td>
+			</tr>
+			<tr>
+				<td><%= submit_tag("Submit") %></td>
+			</tr>
+		</table>
+	<% end %>
+
+	<%= form_for(@user, :url => {:action => :update_location}) do |form| %>
+		<table class="form">
+			<tr>
+				<td class="label">Username:</td>
+				<td><%= form.text_field(:user_name) %></td>
+			</tr>
+			<tr>
+				<td class="label">Latitude: </td>
+				<td><%= form.text_field(:user_last_lat) %></td>
+			</tr>			
+			<tr>
+				<td class="label">Longitude: </td>
+				<td><%= form.text_field(:user_last_long) %></td>
+			</tr>			
+			<tr>
+				<td><%= submit_tag("Submit") %></td>
+			</tr>
+		</table>
+	<% end %>
+
+</div>

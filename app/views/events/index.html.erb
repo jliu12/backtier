@@ -1,0 +1,77 @@
+<% @title = "Event Page" %>
+<div class="wrapper">
+	<h2>Index</h2>
+	<% if flash[:message] %>
+		<p><span><%=flash[:message]%></span></p>
+	<% end %>
+
+	<%= form_for(@event, :url => {:action => :create}) do |form| %>
+		<table class="form">
+			<tr>
+				<td class="label">Event Name: </td>
+				<td><%= form.text_field(:event_name) %></td>
+			</tr>	
+			<tr>
+				<td class="label">Latitude: </td>
+				<td><%= form.text_field(:latitude) %></td>
+			</tr>						
+			<tr>
+				<td class="label">Longitude: </td>
+				<td><%= form.text_field(:longitude) %></td>
+			</tr>			
+			<tr>
+				<td class="label">Location: </td>
+				<td><%= form.text_field(:location) %></td>
+			</tr>
+			<tr>
+				<td class="label">Start Time: </td>
+				<td><%= form.text_field(:start_time) %></td>
+			</tr>	
+			<tr>
+				<td class="label">End Time: </td>
+				<td><%= form.text_field(:end_time) %></td>
+			</tr>	
+			<tr>
+				<td><%= submit_tag("Submit") %></td>
+			</tr>
+		</table>
+	<% end %>
+
+
+	<%= form_for(@event, :url => {:action => :update}) do |form| %>
+		<table class="form">
+			<tr>
+				<td class="label">Event ID:</td>
+				<td><%= form.text_field(:event_id) %></td>
+			</tr>
+			<tr>
+				<td class="label">Event Name: </td>
+				<td><%= form.text_field(:event_name) %></td>
+			</tr>	
+			<tr>
+				<td class="label">Latitude: </td>
+				<td><%= form.text_field(:latitude) %></td>
+			</tr>						
+			<tr>
+				<td class="label">Longitude: </td>
+				<td><%= form.text_field(:longitude) %></td>
+			</tr>			
+			<tr>
+				<td class="label">Location: </td>
+				<td><%= form.text_field(:location) %></td>
+			</tr>
+			<tr>
+				<td class="label">Start Time: </td>
+				<td><%= form.text_field(:start_time) %></td>
+			</tr>	
+			<tr>
+				<td class="label">End Time: </td>
+				<td><%= form.text_field(:end_time) %></td>
+			</tr>											
+			<tr>
+				<td><%= submit_tag("Submit") %></td>
+			</tr>
+		</table>
+	<% end %>
+
+</div>
