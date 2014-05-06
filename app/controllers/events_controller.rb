@@ -11,12 +11,12 @@ class EventsController < ApplicationController
 	def create
 		parameters = event_params
 		@event = Event.new(parameters)
-		user = User.find_by_user_name(params[:user_name])
+		user = User.find_by_user_name(parameters[:user_name])
 		@event.users << user
 		@event.save
 
 		if @event.valid?
-			render json: {status: 200, note: "OK", event_id: @event.event_id}, status: 200
+			render json: {status: 200, note: "OK", event_id: @event.id}, status: 200
 		else
 			render json: {status: 403, note: "Event Creation Failed"}, status: 403
 		end
@@ -36,8 +36,10 @@ class EventsController < ApplicationController
 
 
 	def event_params
-		params.require(:event).permit(:event_id, :event_name, :latitude, :longitude, :location, :start_time, :end_time)
+		params.require(:event).permit(:event_id, :event_name, :latitude, :longitude, :location, :start_time, :end_time, :user_name)
 	end
+
+
 
 end
     	

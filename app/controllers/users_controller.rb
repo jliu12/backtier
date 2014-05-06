@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 			else
 				@user.save
 				flash[:success] = "SUCCESS"
-				render json: {status: 200, note: "OK"}, status: 200 and return
+				render json: {status: 200, note: "OK", user_id: @user.id}, status: 200 and return
 			end
 		else
 			render json: {status: 403, note: "Password and Confirmation can't be blank"}, status: 403 and return

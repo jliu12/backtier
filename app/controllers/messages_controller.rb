@@ -28,4 +28,7 @@ class MessagesController < ApplicationController
 
 	end
 
-end
+	def event_params
+		params.require(:message).permit(:date_time, :photo_url, :location_lat, :location_long, :text)
+	end
+end	

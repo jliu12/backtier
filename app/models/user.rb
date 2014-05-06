@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 	has_many :invitations
-	has_and_belongs_to_many :events
+	has_many :participations
+	has_many :events, :through => :participations
 	has_many :messages
 	has_many :friendships
 

@@ -11,12 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505073623) do
+ActiveRecord::Schema.define(version: 20140506001817) do
 
   create_table "events", force: true do |t|
+    t.string   "user_name"
     t.string   "event_name"
     t.string   "location"
-    t.datetime "time"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -47,6 +51,13 @@ ActiveRecord::Schema.define(version: 20140505073623) do
     t.datetime "updated_at"
   end
 
+  create_table "participations", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "user_name"
     t.string   "user_real_name"
@@ -59,5 +70,12 @@ ActiveRecord::Schema.define(version: 20140505073623) do
     t.string   "password_digest"
     t.string   "salt"
   end
+
+  create_table "users_events", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+  end
+
+  add_index "users_events", ["user_id", "event_id"], name: "index_users_events_on_user_id_and_event_id"
 
 end
