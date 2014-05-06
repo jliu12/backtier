@@ -1,0 +1,79 @@
+Users
+~~~~~~~~~~
+	REGISTER NEW USER: 
+	-------------------
+	Endpoint: [path]/users/create
+		- Input: User table consists of fields:
+			t.string :user_name
+	    	t.string :user_real_name
+	    	t.string :phone_number
+	    	t.decimal :user_last_lat
+	    	t.decimal :user_last_long
+	    	t.datetime :user_last_time
+
+		- Output on success: {status: 200, note: "OK", user_id: [id]}
+		- Output on error: {status: 403, note: "Registration Error"}
+
+
+	LOGIN:
+	-------
+	Endpoint: [path]/users/create
+		- Input: :phone_number OR :user_name (whichever), and :password submission
+				as usual in Rails
+		- Output on success: {status: 200, note: "OK", user:{all user fields}}
+			Ex. {"status":200,
+				 "note":"OK",
+				 "user":{
+						"id":1,
+						"user_name":"skipper",
+						"phone_number":"6266075549",
+						"user_last_long":"11.2",
+						"user_last_lat":"10.5",
+						"user_last_time":"2014-05-06T10:35:24.432Z",
+						"events":[1,2]}}
+
+				where "events" references a list of event_ids
+
+		- Output on error: {status: 403, note: "Registration Error"}
+
+
+	UPDATE USER LOCATION:
+	---------------------
+	Endpoint: [path]/users/update_location
+		- Input: :user_id, :user_last_lat, :user_last_long (datetime is auto-filled)
+		- Output on success: {status: 200, note: "Location update successful"}
+		- Output on error: {status: 403, note: "Update failed"}
+
+
+	UPDATE USER INFORMATION:
+	------------------------
+	Endpoint: [path]/users/update_info
+		- Input: :user_id, and any/all of: :phone_number, :user_name
+			-> If you want to update user location, please use /update_location
+		- Output on success: {status: 200, note: "Update successful"}
+		- Output on error: {status: 403, note: "Update failed"}
+
+
+	CHECK IF USER EXISTS:
+	----------------------
+	Endpoint: [path]/users/is_user
+		- Input: :phone_number OR :user_name (either/or)
+		- Output: {is_user: true} or {is_user: false}
+
+
+	GET INFO OF ONE USER:
+	---------------------
+	Endpoint: [path]/users/get_user
+		- Input: :phone_number OR :user_name (either/or)
+		- Output: {status: 200, note: "OK", user:{all user fields}}
+			Ex. {"status":200,
+				 "note":"OK",
+				 "user":{
+						"id":1,
+						"user_name":"skipper",
+						"phone_number":"6266075549",
+						"user_last_long":"11.2",
+						"user_last_lat":"10.5",
+						"user_last_time":"2014-05-06T10:35:24.432Z",
+						"events":[1,2]}}
+		- Output if user does not exist: {status: 403, note: "User does not exist", is_user: false}

@@ -1,0 +1,39 @@
+Events
+~~~~~~~~~~
+	CREATE NEW EVENT: 
+	-------------------
+	Endpoint: [path]/events/create
+		- Input: Event table consists of fields:
+		    t.integer :user_id <-- Refers to the creater of the event
+	    	t.string :event_name
+	    	t.string :location <-- Name of location
+	    	t.decimal :latitude
+	    	t.decimal :longitude
+	    	t.datetime :start_time
+	    	t.datetime :end_time
+
+	    - Output on success: {status: 200, note: "OK", event_id: [id]}
+	    - Output on error: {status: 403, note: "Event creation error"}
+
+	UPDATE EVENT DETAILS:
+	----------------------
+	Endpoint: [path]/events/update
+		- Input: :id for event, keys and values for whatever you want to update
+			-> Make sure that if you *DO NOT* want to update a field, then you 
+			   either leave out the field as a key or make sure the value is nil
+		- Output on success: {status: 200, note: "OK"}
+		- Output on error: {status: 403, note: "Event Update Failed"}
+
+
+	GET INFO OF MULTIPLE EVENTS:
+	----------------------------
+	Endpoint: [path]/events/get_events
+
+
+Messages
+~~~~~~~~~~
+
+
+
+Invitations
+~~~~~~~~~~~~~

@@ -83,5 +83,29 @@
 		</table>
 	<% end %>
 
+	UPDATE: 
+	<%= form_for(@user, :url => {:action => :update_info}) do |form| %>
+		<table class="form">
+			<tr>
+				<td class="label">User id:</td>
+				<td><%= form.text_field(:id) %></td>
+			</tr>
+				<td class="label">Username:</td>
+				<td><%= form.text_field(:user_name) %></td>
+			</tr>
+			<tr>
+				<td class="label">Name: </td>
+				<td><%= form.text_field(:user_real_name) %> </td>
+			</tr>
+			<tr>
+				<td class="label">Phone Number: </td>
+				<td><%= form.text_field(:phone_number) %></td>
+			</tr>	
+			<tr>
+				<td><%= submit_tag("Submit") %></td>
+			</tr>
+		</table>
+	<% end %>
+
 
 </div>
