@@ -201,7 +201,8 @@ class UsersController < ApplicationController
 		end
 
 		invites = user.invitations
-		invites_hash = Hash.new
+		render json: invites and return
+'''		invites_hash = Hash.new
 		invites.each do |invite|
 			id = invite.id
 			invites_hash[id] = {:user_sent => invite.user_sent,
@@ -209,7 +210,7 @@ class UsersController < ApplicationController
 								:event_id => invite.event_id
 								}
 		end
-		render json: invites_hash and return
+		render json: invites_hash and return'''
 	end
 
 

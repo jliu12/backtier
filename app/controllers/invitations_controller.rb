@@ -1,9 +1,17 @@
 class InvitationsController < ApplicationController
 
+	def index
+		@invitation = Invitation.new
+	end
+
 	def create
 		parameters = invitation_params
 		@invitation = Invitation.new(parameters)
 		if @invitation.valid?
+			user = User.find_by_id(parameters[:user_invited])
+			user.invitations << invitation
+			user.save
+			
 			@invitation.save
 			render json: {status: 200, note: "OK"}, status: 200
 		else
@@ -13,12 +21,12 @@ class InvitationsController < ApplicationController
 
 	def update
 		parameters = invitation_params
-		invitation = Invitation.find_by_id(parameters[:invitation_id])
+		invitation = Invitation.find_by_id(parameters[:id])
 		if parameters[:status] == "NO"
 			invitation.destroy
 			render json: {status: 200, note: "OK, deleted"}, status: 200
 		else
-			user = User.find_by_id(invitation.user_id)
+			user = User.find_by_id(invitation.user_invited)
 			event = Event.find_by_id(invitation.event_id)
 			user.events <<  event
 			event.users << user
@@ -31,7 +39,7 @@ class InvitationsController < ApplicationController
 	end
 
 	def invitation_params
-		params.require(:invitation).permit(:invitation_id, :event_id, :user_id, :status)
+		params.require(:invitation).permit(:invitation_id, :event_id, :user_sent, :user_invited, :status, :id)
 	end
 
 end    	
