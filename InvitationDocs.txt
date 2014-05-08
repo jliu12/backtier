@@ -13,10 +13,13 @@ Invitation
 		- Output on error: {status: 403, note: "Invite Error"}
 
 
-	UPDATE USER LOCATION:
+	REPLY TO INVITATION:
 	---------------------
 	Endpoint: [path]/invitations/update
 		- Input: :id, :status ("YES" or "NO")
 		- Output on success "YES": {status: 200, note: "OK, added"}
 		- Output on success "NO": {status: 200, note: "OK, deleted"}
 		- Output on error: {status: 403, note: "Update failed"}
+		Replying "YES" to an invitation automatically adds the event
+		to the invited user's list of events and deletes all other
+		invitations to the same user for the same event. 

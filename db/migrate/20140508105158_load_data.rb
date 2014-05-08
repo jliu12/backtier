@@ -14,9 +14,9 @@ class LoadData < ActiveRecord::Migration
  	e2.save(:validate => false)
 
   	i1 = Invitation.new(:event_id => 1, :user_sent => 2, :user_invited => 1)
-  	i1.save(:validate => false)
+  	i1.save(:validate => true)
   	i2 = Invitation.new(:event_id => 1, :user_sent => 2, :user_invited => 3)
-  	i2.save(:validate => false)
+  	i2.save(:validate => true)
   end
 
   def down

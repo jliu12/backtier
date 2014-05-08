@@ -21,8 +21,6 @@ class EventsController < ApplicationController
 		@event.users << user
 		@event.save
 
-		user.events << @event
-		user.save
 
 		if @event.valid?
 			render json: {status: 200, note: "OK", event_id: @event.id}, status: 200 and return

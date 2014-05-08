@@ -9,9 +9,10 @@ class InvitationsController < ApplicationController
 		@invitation = Invitation.new(parameters)
 		if @invitation.valid?
 			user = User.find_by_id(parameters[:user_invited])
-			user.invitations << invitation
-			user.save
-			
+			if not user.invitations.include? @invitation
+				user.invitations << @invitation
+				user.save
+			end
 			@invitation.save
 			render json: {status: 200, note: "OK"}, status: 200
 		else
@@ -28,12 +29,13 @@ class InvitationsController < ApplicationController
 		else
 			user = User.find_by_id(invitation.user_invited)
 			event = Event.find_by_id(invitation.event_id)
-			user.events <<  event
-			event.users << user
-
-			user.save
-			event.save
-			invitation.destroy
+			if not (user.events).include? event
+				event.users << user
+				event.save
+				Invitation.destroy_all(:user_invited => user.id, :event_id => event.id)
+			else
+				invitation.destroy
+			end
 			render json: {status: 200, note: "OK, added"}, status: 200
 		end
 	end
