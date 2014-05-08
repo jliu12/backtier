@@ -1,5 +1,10 @@
 class MessagesController < ApplicationController
 
+	def index
+		@message = Message.new
+	end
+
+
 	def create
 		@message = Message.new
 		@message.date_time = DateTime.now
@@ -28,7 +33,11 @@ class MessagesController < ApplicationController
 
 	end
 
+	def get_messages
+	end
+
+
 	def event_params
-		params.require(:message).permit(:date_time, :photo_url, :location_lat, :location_long, :text)
+		params.require(:message).permit(:user_id, :date_time, :photo_url, :location_lat, :location_long, :text)
 	end
 end	

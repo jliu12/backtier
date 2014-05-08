@@ -7,7 +7,7 @@
 
 		<p><b> Messages: </b></p>
 
-	<%= form_for(@invitation, :url => {:action => :update}) do |form| %> 
+	<%= form_for(@message, :url => {:action => :update}) do |form| %> 
 	<table class="form">
 		<tr>
 			<td><%=form.hidden_field :status, :value => "YES"%></td>

@@ -11,7 +11,7 @@ class CreateMessages < ActiveRecord::Migration
       t.timestamps
     end
     create_table :events_messages, :id => false do |t|
-     t.references :event, :message
+      t.references :event, :message
    end
 
     add_index :events_messages, [:event_id, :message_id]
