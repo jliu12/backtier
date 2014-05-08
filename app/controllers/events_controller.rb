@@ -102,12 +102,19 @@ class EventsController < ApplicationController
 		event = Event.find_by_id(parameters[:id])
 		attendees = event.users
 		coord_hash = Hash.new
-		attendees.each do |attendee|
+		coord_hash[:list] = Array.new
+		'''attendees.each do |attendee|
 			id = attendee.id
 			coord_hash[id] = {:user_name => attendee.user_name,
 							  :user_last_lat => attendee.user_last_lat, 
 							  :user_last_long => attendee.user_last_long, 
 							  :user_last_time => attendee.user_last_time}
+		end'''
+		attendees.each do |attendee|
+			coord_hash[:list] << {:user_name => attendee.user_name,
+							  	  :user_last_lat => attendee.user_last_lat, 
+						 	   	  :user_last_long => attendee.user_last_long, 
+							      :user_last_time => attendee.user_last_time}
 		end
 		render json: coord_hash and return
 	end
