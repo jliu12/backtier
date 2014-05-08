@@ -20,10 +20,10 @@ class MessagesController < ApplicationController
 				file.write(uploaded_photo.read)
 			end
 			@message.photo_url = url
-
+		end
 		if @message.valid?
 			@message.save
-
+		end
 		render json: {status: 200, note: ‘OK’, url: @message.photo_url}, status: 200
 
 	end

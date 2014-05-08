@@ -10,5 +10,10 @@ class CreateMessages < ActiveRecord::Migration
     	t.decimal :location_long
       t.timestamps
     end
+    create_table :events_messages, :id => false do |t|
+     t.references :event, :message
+   end
+
+    add_index :events_messages, [:event_id, :message_id]
   end
 end
