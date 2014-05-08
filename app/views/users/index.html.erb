@@ -41,6 +41,9 @@
 		</table>
 	<% end %>
 
+
+	<p><b> LOGIN: </b></p>
+
 	<%= form_for(@user, :url => {:action => :login}) do |form| %> 
 	<table class="form">
 		<tr>
@@ -62,7 +65,37 @@
 	<% end %>
 
 	<b><%=link_to "Logout", :controller => "users", :action => "logout"%></b>
+	<b><%=link_to "GetContacts", :controller => "users", :action => "get_contacts"%></b>
 
+	<p><b> GET EVENTS: </b></p>
+
+	<%= form_for(@user, :url => {:action => :get_events}) do |form| %>
+	<table class="form">
+		<tr>
+			<td class="label">User id:</td>
+			<td><%= form.text_field(:id) %></td>
+		</tr>
+		<tr>
+			<td><%= submit_tag("Submit") %></td>
+		</tr>
+	</table>
+	<% end %>
+
+	<p><b> GET INVITES: </b></p>
+
+	<%= form_for(@user, :url => {:action => :get_invitations}) do |form| %>
+	<table class="form">
+		<tr>
+			<td class="label">User id:</td>
+			<td><%= form.text_field(:id) %></td>
+		</tr>
+		<tr>
+			<td><%= submit_tag("Submit") %></td>
+		</tr>
+	</table>
+	<% end %>
+
+	<p><b>UPDATE LOCATION</b></p>
 	<%= form_for(@user, :url => {:action => :update_location}) do |form| %>
 		<table class="form">
 			<tr>
@@ -83,7 +116,7 @@
 		</table>
 	<% end %>
 
-	UPDATE: 
+	<p><b> UPDATE INFO: </b></p>
 	<%= form_for(@user, :url => {:action => :update_info}) do |form| %>
 		<table class="form">
 			<tr>

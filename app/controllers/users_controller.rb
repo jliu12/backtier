@@ -153,9 +153,83 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def get_contacts
+		contacts = [6266075549,6264515911, 6262036246, 6262154681]
+		contact_list = Hash.new
+		contacts.each do |number|
+			user = User.find_by_phone_number(number)
+			if user.nil?
+				contact_list[number] = {is_user: false}
+			else
+				contact_list[number] = {is_user: true, user_id: user.id}
+			end
+		end
+		render json: contact_list and return
+	end
+
+
+	def get_events
+		parameters = user_params
+
+		if @currUser.nil? 
+			user = User.find_by_id(parameters[:id])
+			if user.nil?
+				render json: {status: 403, note: "Not logged in"}, status: 403 and return
+			end
+		else
+			user = @currUser 
+		end
+
+		events = user.events
+		events_hash = Hash.new
+		events.each do |event|
+			events_hash[event.id] = _event_obj(event)
+		end
+		render json: events_hash and return
+	end
+
+	def get_invitations
+		parameters = user_params
+
+		if @currUser.nil? 
+			user = User.find_by_id(parameters[:id])
+			if user.nil?
+				render json: {status: 403, note: "Not logged in"}, status: 403 and return
+			end
+		else
+			user = @currUser 
+		end
+
+		invites = user.invitations
+		invites_hash = Hash.new
+		invites.each do |invite|
+			id = invite.id
+			invites_hash[id] = {:user_sent => invite.user_sent,
+								:user_received => invite.user_received,
+								:event_id => invite.event_id
+								}
+		end
+		render json: invites_hash and return
+	end
+
+
+	def _event_obj(event)
+		event_hash = Hash.new
+		event_hash[:event_name] = event.event_name
+		event_hash[:user_id] = event.user_id
+		event_hash[:location] = event.location
+		event_hash[:latitude] = event.latitude
+		event_hash[:longitude] = event.longitude
+		event_hash[:start_time] = event.start_time
+		event_hash[:end_time] = event.end_time
+		event_hash[:users] = event.users.pluck(:id)
+		event_hash[:messages] = event.messages.pluck(:id)
+		return event_hash
+	end
+
 
 	def user_params
-		params.require(:user).permit(:id, :user_name, :user_real_name, :password, :password_confirmation, :user_last_lat, :user_last_long, :user_last_time, :phone_number)
+		params.require(:user).permit(:id, :user_name, :user_real_name, :password, :password_confirmation, :user_last_lat, :user_last_long, :user_last_time, :phone_number, :contacts)
 	end
 
 end

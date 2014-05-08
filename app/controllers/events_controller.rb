@@ -22,9 +22,9 @@ class EventsController < ApplicationController
 		@event.save
 
 		if @event.valid?
-			render json: {status: 200, note: "OK", event_id: @event.id}, status: 200
+			render json: {status: 200, note: "OK", event_id: @event.id}, status: 200 and return
 		else
-			render json: {status: 403, note: "Event Creation Failed"}, status: 403
+			render json: {status: 403, note: "Event Creation Failed"}, status: 403 and return 
 		end
 	end
 
@@ -36,9 +36,9 @@ class EventsController < ApplicationController
 		_update_fields(event_to_update, parameters)
 
 		if event_to_update.valid?
-			render json: {status: 200, note: "OK"}, status: 200
+			render json: {status: 200, note: "OK"}, status: 200 and return 
 		else
-			render json: {status: 403, note: "Event Update Failed"}, status: 403
+			render json: {status: 403, note: "Event Update Failed"}, status: 403 and return 
 		end
 	end
 
@@ -82,13 +82,16 @@ class EventsController < ApplicationController
 		event_hash[:longitude] = event.longitude
 		event_hash[:start_time] = event.start_time
 		event_hash[:end_time] = event.end_time
-		event_hash[:events] = event.users.pluck(:id)
+		event_hash[:users] = event.users.pluck(:id)
 		event_hash[:messages] = event.messages.pluck(:id)
 		return user_hash
 	end
 
-	def get_events
-
-
+	def get_event
+		parameters = event_params
+		event = Event.find_by_id(parameters[:id])
+		event_hash = _event_obj(event)
+		render json: event_hash and return
+	end
 end
     	
