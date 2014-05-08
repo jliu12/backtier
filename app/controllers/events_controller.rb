@@ -70,7 +70,7 @@ class EventsController < ApplicationController
 	end
 
 	def event_params
-		params.require(:event).permit(:id, :user_id, :event_name, :latitude, :longitude, :location, :start_time, :end_time, :user_name)
+		params.require(:event).permit(:id, :user_id, :event_name, :latitude, :longitude, :location, :start_time, :end_time, :user_name, :notes)
 	end
 
 	def _event_obj(event)
@@ -83,6 +83,7 @@ class EventsController < ApplicationController
 		event_hash[:longitude] = event.longitude
 		event_hash[:start_time] = event.start_time
 		event_hash[:end_time] = event.end_time
+		event_hash[:notes] = event.notes
 		event_hash[:users] = event.users.pluck(:id)
 		event_hash[:messages] = event.messages.pluck(:id)
 		return user_hash
@@ -94,5 +95,20 @@ class EventsController < ApplicationController
 		event_hash = _event_obj(event)
 		render json: event_hash and return
 	end
+
+	def get_event_attendee_locations
+		parameters = event_params
+		event = Event.find_by_id(parameters[:id])
+		attendees = event.users
+		coord_hash = Hash.new
+		attendees.each do |attendee|
+			id = attendee.id
+			coord_hash[id] = {:user_last_lat => attendee.user_last_lat, 
+							  :user_last_long => attendee.user_last_long, 
+							  :user_last_time => attendee.user_last_time}
+		end
+		render json: coord_hash and return
+	end
+
 end
     	

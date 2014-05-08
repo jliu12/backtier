@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140508112243) do
     t.decimal  "longitude"
     t.datetime "start_time"
     t.datetime "end_time"
+    t.string   "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

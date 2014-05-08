@@ -1,0 +1,26 @@
+Invitation
+~~~~~~~~~~~~
+	CREATE NEW INVITATION: 
+	----------------------
+	Endpoint: [path]/messages/create
+		- Input: Invitation table consists of fields:
+			t.integer :event_id
+    		t.integer :user_sent
+    		t.integer :user_invited
+    		- Send these in a hash/json object, if possible
+
+		- Output on success: {status: 200, note: "OK", invitation_id: [id]}
+		- Output on error: {status: 403, note: "Invite Error"}
+
+
+	GET MESSAGES FOR EVENT:
+	-----------------------
+	Endpoint: [path]/messages/get_messages
+	~ Options: min_id [all messages for event since that id],
+			   max_id [all messages for event up to/including that id],
+			   count [number of messages to fetch]
+			   
+		Ex. {min_id: 17, count: 7} will get you the 7 messages following id 17
+
+		- Input:
+		- Output: Hash of messages, {id1:{}, id2:{}, id3:{}} 

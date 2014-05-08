@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 	def create
 		parameters = user_params
 		@user = User.new(parameters)
+		@user.user_name_clean = @user.user_name.downcase
 
 		@user.user_last_time = DateTime.now
 		if @user.valid?
@@ -222,6 +223,7 @@ class UsersController < ApplicationController
 		event_hash[:longitude] = event.longitude
 		event_hash[:start_time] = event.start_time
 		event_hash[:end_time] = event.end_time
+		event_hash[:notes] = event.notes
 		event_hash[:users] = event.users.pluck(:id)
 		event_hash[:messages] = event.messages.pluck(:id)
 		return event_hash

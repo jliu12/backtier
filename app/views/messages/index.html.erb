@@ -7,18 +7,38 @@
 
 		<p><b> Messages: </b></p>
 
-	<%= form_for(@message, :url => {:action => :update}) do |form| %> 
+	<%= form_for(@message, :url => {:action => :create}) do |form| %> 
 	<table class="form">
 		<tr>
-			<td><%=form.hidden_field :status, :value => "YES"%></td>
+			<td><%=form.hidden_field :longitude, :value => 33.4%></td>
 		</tr>
+		<tr>
+			<td><%=form.hidden_field :latitude, :value => 53.4%></td>
+		</tr>	
+		<tr>
+			<td class="label">User ID:</td>
+			<td><%= form.text_field(:user_id) %></td>
+		</tr>		
 		<tr>
 			<td class="label">Event ID:</td>
-			<td><%= form.text_field(:id) %></td>
+			<td><%= form.text_field(:event_id) %></td>
+		</tr>					
+		<tr>
+			<td class="label">Text:</td>
+			<td><%= form.text_area(:text) %></td>
 		</tr>
 		<tr>
-			<td><%= submit_tag("YES") %></td>
+			<td><%= submit_tag("Send") %></td>
 		</tr>
 	</table>
 	<% end %>
 </div>
+
+
+    	t.integer :user_id
+    	t.integer :event_id
+    	t.datetime :date_time
+    	t.string :photo_url
+    	t.string :text
+
+      t.timestamps
