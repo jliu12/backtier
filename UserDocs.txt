@@ -17,7 +17,7 @@ Users
 
 	LOGIN:
 	-------
-	Endpoint: [path]/users/create
+	Endpoint: [path]/users/login
 		- Input: :phone_number OR :user_name (whichever), and :password submission
 				as usual in Rails
 		- Output on success: {status: 200, note: "OK", user:{all user fields}}
