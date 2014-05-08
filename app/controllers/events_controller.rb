@@ -119,39 +119,7 @@ class EventsController < ApplicationController
 		render json: coord_hash and return
 	end
 
-	'''def get_event_messages
-		parameters = event_params
-		event = Event.find_by_id(parameters[:id])
-		msg_hash = Hash.new
-		if parameters.has_key?("max_id") and parameters.has_key?("min_id")
-			if parameters.has_key("count")
-				messages = Message.where("event_id").limit(parameters[:count]).order('created_at desc')
-			else
-				messages = Message.where("event_id").order('created_at desc')
-			end
-		elsif parameters.has_key?("max_id")
-			if parameters.has_key("count")
-				messages = Message.where("event_id").limit(parameters[:count]).order('created_at desc')
-			else
-				messages = Message.where("event_id").order('created_at desc')
-			end
-		elsif parameters.has_key?("min_id")
-			if parameters.has_key("count")
-				messages = Message.where("event_id").limit(parameters[:count]).order('created_at desc')
-			else
-				messages = Message.where("event_id = ? AND id").order('created_at desc')
-			end
-		elsif parameters.has_key?("count")
-			messages = Message.where("event_id = ?", parameters[:id]).limit(parameters[:count]).order('created_at desc')
-		else
-			messages = Message.where("event_id = ?", parameters[:id]).order('created_at desc')
-		end
 
-		messages.each do |msg|
-			msg_hash[msg.id] = _msg_object(msg)
-		end
-		render json: msg_hash and return
-	end'''
 
 end
     	
