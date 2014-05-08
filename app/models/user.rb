@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
 	validates :user_name, :user_real_name, :presence => true
 	validates :password, :confirmation => true
-	validates :user_name, :uniqueness => true
+	validates :user_name_clean, :uniqueness => true
 	validates :phone_number, :uniqueness => true
 
 	def password=(arg)

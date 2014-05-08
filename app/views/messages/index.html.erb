@@ -7,7 +7,7 @@
 
 		<p><b> Messages: </b></p>
 
-	<%= form_for(@message, :url => {:action => :create}) do |form| %> 
+	<%= form_for(@message, :html=>{:multipart => true}, :url => {:action => :create}) do |form| %> 
 	<table class="form">
 		<tr>
 			<td><%=form.hidden_field :longitude, :value => 33.4%></td>
@@ -28,17 +28,12 @@
 			<td><%= form.text_area(:text) %></td>
 		</tr>
 		<tr>
+			<td class="label">File:</td>
+			<td><%= form.file_field(:filename) %></td>
+		<tr>
 			<td><%= submit_tag("Send") %></td>
 		</tr>
 	</table>
 	<% end %>
 </div>
 
-
-    	t.integer :user_id
-    	t.integer :event_id
-    	t.datetime :date_time
-    	t.string :photo_url
-    	t.string :text
-
-      t.timestamps

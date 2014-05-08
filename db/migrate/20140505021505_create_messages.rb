@@ -6,8 +6,8 @@ class CreateMessages < ActiveRecord::Migration
     	t.datetime :date_time
     	t.string :photo_url
     	t.string :text
-    	t.decimal :location_lat
-    	t.decimal :location_long
+    	t.decimal :latitude
+    	t.decimal :longitude
       t.timestamps
     end
     create_table :events_messages, :id => false do |t|
