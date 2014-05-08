@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20140508112243) do
     t.datetime "updated_at"
   end
 
+  create_table "events_messages", id: false, force: true do |t|
+    t.integer "event_id"
+    t.integer "message_id"
+  end
+
+  add_index "events_messages", ["event_id", "message_id"], name: "index_events_messages_on_event_id_and_message_id"
+
   create_table "friendships", force: true do |t|
     t.integer  "friender_id"
     t.integer  "friendee_id"
@@ -62,6 +69,7 @@ ActiveRecord::Schema.define(version: 20140508112243) do
 
   create_table "users", force: true do |t|
     t.string   "user_name"
+    t.string   "user_name_clean"
     t.string   "user_real_name"
     t.string   "phone_number"
     t.decimal  "user_last_lat"
