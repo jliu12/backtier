@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 20140508105158) do
     t.datetime "date_time"
     t.string   "photo_url"
     t.string   "text"
-    t.decimal  "location_lat"
-    t.decimal  "location_long"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
