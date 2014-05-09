@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 		if (parameters[:user_name].blank? and parameters[:phone_number].blank?) or parameters[:password].blank?
 			render json: {status: 403, note: "Fields empty"}, status: 403 and return
 		elsif not parameters[:user_name].blank?
-			@user = User.find_by_user_name(parameters[:user_name])
+			@user = User.find_by_user_name_clean(parameters[:user_name])
 			note2 = "user not found by name"
 		else
 			@user = User.find_by_phone_number(parameters[:phone_number])
