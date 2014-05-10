@@ -1,10 +1,6 @@
 <% @title = "Messages Page" %>
 <div class="wrapper">
 	<h2>Index</h2>
-	<% if flash[:message] %>
-		<p><span><%=flash[:message]%></span></p>
-	<% end %>
-
 		<p><b> Messages: </b></p>
 
 	<%= form_for(@message, :html=>{:multipart => true}, :url => {:action => :create}) do |form| %> 
@@ -34,6 +30,21 @@
 			<td><%= submit_tag("Send") %></td>
 		</tr>
 	</table>
+	<% end %>
+
+	<% @incomplete_tasks = [{"id" => 1, "name" => "1"}, {"id" => 5, "name" => "5"}, {"id" => 7, "name" => "7"}, {"id" => 12, "name" => "12"}]%>
+
+	<p><b>Get Messages by ID List</b></p>
+	<% form_tag '/messages_controller/get_messages', :method => :put do%>
+	    <ul>
+		  <% for task in @incomplete_tasks %>
+		    <li>
+		      <%= check_box_tag "ids[]", task["id"] %>
+		      <%= task["name"] %>
+		    </li>
+		  <% end %>
+		</ul>
+	  <%= submit_tag "Mark as Complete" %>
 	<% end %>
 </div>
 

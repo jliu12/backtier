@@ -55,4 +55,27 @@ Events
 			     2: { 'user_last_lat': 54.5,
 					  'user_last_long': 67.6,
 					  'user_last_time': 2014-05-08 09:16:00 }}
+
+
+	GET ALL MESSAGES ASSOCIATED WITH EVENT:
+	----------------------------------------
+	Endpoint: [path]/events/get_event_messages
+		- Input: :event_id for event (required) 
+			~ Options: min_id [all messages for event since that id],
+					   max_id [all messages for event up to/including that id],
+					   count [number of messages to fetch]
+				- Note: Specifying both min_id and max_id will return the messages with min_id < id <= max_id
+				- Note 2: Specifying max_id with count will return the 'count' lowest, id's that fulfill the
+						criteria. I can change this to the 'count' largest if you'd like
+		- Ouput: JSON object, but can be changed to array:
+			Ex. {"1":{"date_time":"2014-05-10T18:07:18.919Z",
+					  "text":"Hey are you here yet",
+					  "latitude":"53.4",
+					  "longitude":"33.4",
+					  "event_id":1,
+					  "user_id":1,
+					  "photo_url":"public/images/photo.jpeg20140510180718UTC"},
+				 "2":{"date_time":"2014-05-10T18:07:48.201Z",
+				 	  "text":"Yo what's up",.....,
+				 	  "photo_url":null}}
 				

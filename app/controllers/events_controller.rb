@@ -119,7 +119,82 @@ class EventsController < ApplicationController
 		render json: coord_hash and return
 	end
 
+	def get_event_messages
+		parameters = event_params
+		filters = _get_db_filters(parameters)
+		event = Event.find_by_id(filters[:id])
+		msg_hash = Hash.new
+		msg_case = ""
+		if not filters[:max_id].nil? and not filters[:min_id].nil?
+			if not filters[:count].nil?
+				messages = Message.where("event_id = ? AND messages.id > ? AND messages.id <= ?", 
+					filters[:id], filters[:min_id], filters[:max_id]).limit(filters[:count]).order('created_at asc')
+				msg_case = "CASE 1A"
+			else
+				messages = Message.where("event_id = ? AND messages.id > ? AND messages.id <= ?", 
+					filters[:id], filters[:min_id], filters[:max_id]).order('created_at asc')
+				msg_case = "CASE 1B"
+			end
+		elsif not filters[:max_id].nil?
+			if not filters[:count].nil?
+				messages = Message.where("event_id = ? AND messages.id <= ?", filters[:id], filters[:max_id]).limit(
+					filters[:count]).order('created_at asc')
+				msg_case = "CASE 2A"
+			else
+				messages = Message.where("event_id = ? AND messages.id <= ?", filters[:id], filters[:max_id]).order('created_at asc')
+				msg_case = "CASE 2B"
+			end
+		elsif not filters[:min_id].nil?
+			if not filters[:count].nil?
+				messages = Message.where("event_id = ? AND messages.id > ?", filters[:id], filters[:min_id]).limit(
+					filters[:count]).order('created_at asc')
+				msg_case = "CASE 3A"
+			else
+				messages = Message.where("event_id = ? AND messages.id > ?", filters[:id], filters[:min_id]).order('created_at asc')
+				msg_case = "CASE 3B"
+			end
+		elsif not filters[:count].nil?
+			messages = Message.where("event_id = ?", 
+				filters[:id]).limit(filters[:count]).order('created_at asc')
+			msg_case = "CASE 4"
+		else
+			messages = Message.where("event_id = ?", 
+				filters[:id]).order('created_at asc')
+			msg_case = "CASE 5"	
+		end
 
+		messages.each do |msg|
+			msg_hash[msg.id] = _msg_obj(msg)
+		end
+		render json: msg_hash and return
+	end
+
+	def _msg_obj(msg)
+		msg_hash = Hash.new
+		msg_hash[:date_time] = msg.date_time
+		msg_hash[:text] = msg.text
+		msg_hash[:latitude] = msg.latitude
+		msg_hash[:longitude] = msg.longitude
+		msg_hash[:event_id] = msg.event_id
+		msg_hash[:user_id] = msg.user_id
+		msg_hash[:photo_url] = msg.photo_url
+		return msg_hash
+	end
+
+	def _get_db_filters(parameters)
+		filters = {:min_id => nil, :max_id => nil, :count => nil, :id => parameters[:id]}
+		if parameters.has_key?(:min_id) and not parameters[:min_id].nil? and not parameters[:min_id].empty?
+			filters[:min_id] = parameters[:min_id].to_i
+		end
+		if parameters.has_key?(:max_id) and not parameters[:max_id].nil? and not parameters[:max_id].empty?
+			filters[:max_id] = parameters[:max_id].to_i
+		end
+		if parameters.has_key?(:count) and not parameters[:count].nil? and not parameters[:count].empty?
+			filters[:count] = parameters[:count].to_i
+		end
+
+		return filters
+	end
 
 end
     	

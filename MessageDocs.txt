@@ -1,26 +1,58 @@
-Invitation
+Message
 ~~~~~~~~~~~~
-	CREATE NEW INVITATION: 
+	CREATE NEW MESSAGE: 
 	----------------------
 	Endpoint: [path]/messages/create
-		- Input: Invitation table consists of fields:
-			t.integer :event_id
-    		t.integer :user_sent
-    		t.integer :user_invited
+		-> All images are saved to folder [path]/public/images
+		- Input: Message table consists of fields:
+			t.integer :user_id  <-- User who sent the message
+	    	t.integer :event_id
+	    	t.datetime :date_time
+	    	t.string :photo_url  <-- ATTENTIONNN!! USE :filename for input instead of :photo_url; there is no url until after the message is created!! 
+	    	t.string :text
+	    	t.decimal :latitude
+	    	t.decimal :longitude
     		- Send these in a hash/json object, if possible
+    	Note: If there is no photo_url, you can leave out the key, or include the key but leave the value null or empty
 
-		- Output on success: {status: 200, note: "OK", invitation_id: [id]}
-		- Output on error: {status: 403, note: "Invite Error"}
+		- Output on success: {status: 200, note: "OK", message_id: message.id, url: message.photo_url}
+			Ex. {status: 200, note: "OK", message_id: 1, url: "public/images/photo.jpeg20140510180718UTC"}
+		- Output on error: {status: 403, note: "Message Error"}
 
 
-	GET MESSAGES FOR EVENT:
-	-----------------------
+	GET MESSAGES BY A LIST OF MESSAGE IDs
+	--------------------------------------
 	Endpoint: [path]/messages/get_messages
-	~ Options: min_id [all messages for event since that id],
-			   max_id [all messages for event up to/including that id],
-			   count [number of messages to fetch]
-			   
-		Ex. {min_id: 17, count: 7} will get you the 7 messages following id 17
+		- Input: :ids array/list of message id's
+		- Output on success: {id: {message contents}, id2: {message contents}}
+			Ex. {1: {"date_time":"2014-05-10T18:07:18.919Z",
+					  "text":"Hey are you here yet",
+					  "latitude":"53.4",
+					  "longitude":"33.4",
+					  "event_id":1,
+					  "user_id":1,
+					  "photo_url":"public/images/photo.jpeg20140510180718UTC"},}
+				 2: {...}}
 
-		- Input:
-		- Output: Hash of messages, {id1:{}, id2:{}, id3:{}} 
+
+	GET MESSAGES FOR EVENT IS MANAGED BY EVENTCONTROLLER (pasted from EventDocs.txt):
+	----------------------------------------------------------------------------------
+	Endpoint: [path]/events/get_event_messages
+		- Input: :event_id for event (required) 
+			~ Options: min_id [all messages for event since that id],
+					   max_id [all messages for event up to/including that id],
+					   count [number of messages to fetch]
+				- Note: Specifying both min_id and max_id will return the messages with min_id < id <= max_id
+				- Note 2: Specifying max_id with count will return the 'count' lowest, id's that fulfill the
+						criteria. I can change this to the 'count' largest if you'd like
+		- Ouput: JSON object, but can be changed to array:
+			Ex. {"1":{"date_time":"2014-05-10T18:07:18.919Z",
+					  "text":"Hey are you here yet",
+					  "latitude":"53.4",
+					  "longitude":"33.4",
+					  "event_id":1,
+					  "user_id":1,
+					  "photo_url":"public/images/photo.jpeg20140510180718UTC"},
+				 "2":{"date_time":"2014-05-10T18:07:48.201Z",
+				 	  "text":"Yo what's up",.....,
+				 	  "photo_url":null}}

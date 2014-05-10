@@ -41,6 +41,32 @@
 		</table>
 	<% end %>
 
+	<p><b> GET MESSAGES: </b></p>
+
+	<%= form_for(@event, :url => {:action => :get_event_messages}) do |form| %>
+	<table class="form">
+		<tr>
+			<td class="label">Event id:</td>
+			<td><%= form.text_field(:id)%></td>
+		</tr>
+		<tr>
+			<td class="label">min_id:</td>
+			<td><%= form.text_field :min_id, :value => nil %></td>
+		</tr>
+		<tr>
+			<td class="label">max_id:</td>
+			<td><%= form.text_field :max_id, :value => nil %></td>
+		</tr>
+		<tr>
+			<td class="label">Count:</td>
+			<td><%= form.text_field :count, :value => nil %></td>
+		</tr>
+		<tr>
+			<td><%= submit_tag("Submit") %></td>
+		</tr>
+	</table>
+	<% end %>
+
 	<p><b> GET COORDS: </b></p>
 
 	<%= form_for(@event, :url => {:action => :get_event_attendee_locations}) do |form| %>
