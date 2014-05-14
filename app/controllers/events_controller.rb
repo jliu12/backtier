@@ -10,6 +10,8 @@ class EventsController < ApplicationController
 	#						'location': 'place', 'time': time}}
 	def create
 		parameters = event_params
+		invitees = parameters[:invitee_ids]
+		parameters.delete(:invitee_ids)
 		@event = Event.new(parameters)
 
 		if @currUser.nil? 
@@ -20,9 +22,8 @@ class EventsController < ApplicationController
 
 		@event.users << user
 
-		invitees = parameters[:invitee_ids]
 		invitees.each do |invitee_id|
-			invitee = User.find_by_id(parameters[:invitee_id])
+			invitee = User.find_by_id(invitee_id)
 			if not (@event.users).include? invitee
 				@event.users << invitee
 			end
@@ -31,7 +32,7 @@ class EventsController < ApplicationController
 
 
 		if @event.valid?
-			render json: {status: 200, note: "OK", event_id: @event.id}, status: 200 and return
+			render json: {status: 200, note: "OK", event_id: @event.id, users:@event.users}, status: 200 and return
 		else
 			render json: {status: 403, note: "Event Creation Failed"}, status: 403 and return 
 		end
@@ -132,6 +133,7 @@ class EventsController < ApplicationController
 		filters = _get_db_filters(parameters)
 		event = Event.find_by_id(filters[:id])
 		msg_hash = Hash.new
+		msg_ids = Array.new
 		msg_case = ""
 		if not filters[:max_id].nil? and not filters[:min_id].nil?
 			if not filters[:count].nil?
@@ -145,8 +147,8 @@ class EventsController < ApplicationController
 			end
 		elsif not filters[:max_id].nil?
 			if not filters[:count].nil?
-				messages = Message.where("event_id = ? AND messages.id <= ?", filters[:id], filters[:max_id]).limit(
-					filters[:count]).order('created_at asc')
+				messages = Message.where("event_id = ? AND messages.id <= ?", filters[:id], filters[:max_id]).order('created_at desc').limit(
+					filters[:count])
 				msg_case = "CASE 2A"
 			else
 				messages = Message.where("event_id = ? AND messages.id <= ?", filters[:id], filters[:max_id]).order('created_at asc')
@@ -173,8 +175,10 @@ class EventsController < ApplicationController
 
 		messages.each do |msg|
 			msg_hash[msg.id] = _msg_obj(msg)
+			msg_ids << msg.id
 		end
 		render json: msg_hash and return
+		#render json: msg_ids and return
 	end
 
 	def _msg_obj(msg)
