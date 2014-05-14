@@ -13,6 +13,10 @@ Events
 	    	t.datetime :end_time
 	    	t.string :notes <-- Event notes/details
 
+	    	-> To add invitees, include an array with token :invitee_ids, the user_id's of invitees.
+	    	-> This will create a new "invitation" object for each user_id and send a push notification
+	    	-> to the user. 
+
 	    - Output on success: {status: 200, note: "OK", event_id: [id]}
 	    - Output on error: {status: 403, note: "Event creation error"}
 
