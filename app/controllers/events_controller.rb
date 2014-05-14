@@ -23,9 +23,7 @@ class EventsController < ApplicationController
 		invitees = parameters[:invitee_ids]
 		invitees.each do |invitee_id|
 			invitee = User.find_by_id(parameters[:invitee_id])
-			if not (@event.users).include? invitee
-				@event.users << invitee
-			end
+
 		end
 		@event.save
 
@@ -37,6 +35,17 @@ class EventsController < ApplicationController
 		end
 	end
 
+	def _create_invitation(params, invitee_id, invitee)
+		invitation = Invitation.new
+		invitation.event_id = params[:id];
+		invitation.user_id = params[:]
+
+
+
+
+			if not (@event.users).include? invitee
+				@event.users << invitee
+			end
 
 	def update
 		parameters = event_params
