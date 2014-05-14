@@ -19,6 +19,14 @@ class EventsController < ApplicationController
 		end
 
 		@event.users << user
+
+		invitees = parameters[:invitee_ids]
+		invitees.each do |invitee_id|
+			invitee = User.find_by_id(parameters[:invitee_id])
+			if not (@event.users).include? invitee
+				@event.users << invitee
+			end
+		end
 		@event.save
 
 
@@ -71,7 +79,7 @@ class EventsController < ApplicationController
 
 	def event_params
 		params.require(:event).permit(:id, :user_id, :event_name, :latitude, :longitude, :location, :start_time, 
-			:end_time, :user_name, :notes, :min_id, :max_id, :count)
+			:end_time, :user_name, :notes, :min_id, :max_id, :count, :invitee_ids => [])
 	end
 
 	def _event_obj(event)
