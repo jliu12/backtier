@@ -112,6 +112,9 @@ class UsersController < ApplicationController
 		if parameters.has_key?(:phone_number) and not parameters[:phone_number].nil?
 			user_to_update.update_column(:phone_number, parameters[:phone_number])
 		end
+		if parameters.has_key?(:push_token) and not parameters[:push_token].nil?
+			user_to_update.update_column(:push_token, parameters[:push_token])
+		end
 		user_to_update.save
 		return user_to_update	
 	end
@@ -231,7 +234,7 @@ class UsersController < ApplicationController
 
 
 	def user_params
-		params.require(:user).permit(:id, :user_name, :user_real_name, :password, :password_confirmation, :user_last_lat, :user_last_long, :user_last_time, :phone_number, :contacts)
+		params.require(:user).permit(:id, :user_name, :user_real_name, :password, :password_confirmation, :push_token, :user_last_lat, :user_last_long, :user_last_time, :phone_number, :contacts)
 	end
 
 end
