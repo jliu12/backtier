@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 20140508105158) do
     t.datetime "updated_at"
     t.string   "password_digest"
     t.string   "salt"
-    t.string   "push_token"
   end
 
   create_table "users_events", id: false, force: true do |t|
