@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 	has_many :events, :through => :participations
 	has_many :messages
 	has_many :friendships
+	has_one :photo
 
 	validates :user_name, :user_real_name, :presence => true
 	validates :password, :confirmation => true

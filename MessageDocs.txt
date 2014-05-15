@@ -18,6 +18,7 @@ Message
 		- Output on success: {status: 200, note: "OK", message_id: message.id, url: message.photo_url}
 			Ex. {status: 200, note: "OK", message_id: 1, url: "public/images/photo.jpeg20140510180718UTC"}
 		- Output on error: {status: 403, note: "Message Error"}
+	~Behavior note: Since each user is associated with only one photo (its most recent), the backend will automatically update a user's most recent photo and return that for get_event_user_photos.
 
 
 	GET MESSAGES BY A LIST OF MESSAGE IDs

@@ -1,3 +1,5 @@
+
+
 class EventsController < ApplicationController
 
 	def index
@@ -38,17 +40,6 @@ class EventsController < ApplicationController
 		end
 	end
 
-	def _create_invitation(params, invitee_id, invitee)
-		invitation = Invitation.new
-		invitation.event_id = params[:id];
-		invitation.user_id = params[:]
-
-
-
-
-			if not (@event.users).include? invitee
-				@event.users << invitee
-			end
 
 	def update
 		parameters = event_params
@@ -115,6 +106,12 @@ class EventsController < ApplicationController
 		event = Event.find_by_id(parameters[:id])
 		event_hash = _event_obj(event)
 		render json: event_hash and return
+	end
+
+	def get_event_user_photos
+		parameters = event_params
+		event = Event.find_by_id(parameters[:id])
+		render json: event.photos
 	end
 
 	def get_event_attendee_locations

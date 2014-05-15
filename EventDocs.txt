@@ -64,14 +64,14 @@ Events
 	GET ALL MESSAGES ASSOCIATED WITH EVENT:
 	----------------------------------------
 	Endpoint: [path]/events/get_event_messages
-		- Input: :event_id for event (required) 
+		- Input: :id for event (required) 
 			~ Options: min_id [all messages for event since that id],
 					   max_id [all messages for event up to/including that id],
 					   count [number of messages to fetch]
 				- Note: Specifying both min_id and max_id will return the messages with min_id < id <= max_id
 				- Note 2: Specifying max_id with count will return the 'count' lowest, id's that fulfill the
 						criteria. I can change this to the 'count' largest if you'd like
-		- Ouput: JSON object, but can be changed to array:
+		- Output: JSON object, but can be changed to array:
 			Ex. {"1":{"date_time":"2014-05-10T18:07:18.919Z",
 					  "text":"Hey are you here yet",
 					  "latitude":"53.4",
@@ -82,4 +82,20 @@ Events
 				 "2":{"date_time":"2014-05-10T18:07:48.201Z",
 				 	  "text":"Yo what's up",.....,
 				 	  "photo_url":null}}
-				
+
+
+	GET USER PHOTOS ASSOCIATED WITH EVENT:
+	---------------------------------------
+	Endpoint: [path]/events/get_event_user_photos
+		- Input: :id for event 
+		- Output: Array of JSON Objects, but can be changed:
+			Ex. [{"id":3,"user_id":3,"event_id":1,
+				  "date_time":"2014-05-15T05:36:40.381Z",
+				  "photo_url":"public/images/sun.jpg20140515053640UTC",
+				  "latitude":"53.4",
+				  "longitude":"33.4"},
+				  {"id":5,"user_id":1,"event_id":1,
+				  "date_time":"2014-05-15T05:39:33.689Z",
+				  "photo_url":"public/images/485442.PNG20140515053933UTC",
+				  "latitude":"53.4",
+				  "longitude":"33.4"}]
