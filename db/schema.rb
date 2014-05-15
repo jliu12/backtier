@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20140515025149) do
     t.string   "user_name_clean"
     t.string   "user_real_name"
     t.string   "phone_number"
+    t.string   "push_token"
     t.decimal  "user_last_lat"
     t.decimal  "user_last_long"
     t.datetime "user_last_time"
