@@ -61,10 +61,10 @@ class MessagesController < ApplicationController
 		if !params[:filename].nil?
 			uploaded_photo = params[:filename]
 			name = uploaded_photo.original_filename + @message.date_time.to_s.gsub(/\W+/,"")
-			url = File.new('public/images' << name << '.jpg', 'a+') do |url|
+			url = File.open('public/images/' << name << '.jpg', 'wb') do |url|
 				url.write(uploaded_photo.read)
 			end
-			@message.photo_url = 'public/images' << name << '.jpg'
+			@message.photo_url = 'public/images/' << name << '.jpg'
 
 			@photo_msg = @message.user.photo
 			if not @photo_msg.nil?
