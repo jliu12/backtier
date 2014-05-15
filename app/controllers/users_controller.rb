@@ -185,11 +185,11 @@ class UsersController < ApplicationController
 		end
 
 		events = user.events
-		events_hash = Hash.new
+		events_arr = Array.new
 		events.each do |event|
-			events_hash[event.id] = _event_obj(event)
+			events_arr << _event_obj(event)
 		end
-		render json: events_hash and return
+		render json: events_arr and return
 	end
 
 	def get_invitations
@@ -219,6 +219,7 @@ class UsersController < ApplicationController
 
 	def _event_obj(event)
 		event_hash = Hash.new
+		event_hash[:id] = event.id
 		event_hash[:event_name] = event.event_name
 		event_hash[:user_id] = event.user_id
 		event_hash[:location] = event.location
