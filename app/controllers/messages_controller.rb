@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+	skip_before_filter  :verify_authenticity_token
 
 	def index
 		@message = Message.new
@@ -40,6 +41,45 @@ class MessagesController < ApplicationController
 		if @message.valid?
 			@message.save
 			render json: {status: 200, note: "OK", message_id: @message.id, url: @message.photo_url, text: parameters[:text]}, status: 200 and return
+		else
+			render json: {status: 403, note: "Message Error"}, status: 403 and return
+		end
+
+	end
+
+	def upload_photo
+		@message = Message.new
+		@message.date_time = DateTime.now
+		@message.latitude = params[:latitude]
+		@message.longitude = params[:longitude]
+		@message.event_id = params[:event_id]
+		@message.user_id = params[:user_id]
+
+		@message.event = Event.find_by_id(params[:event_id])
+		@message.user = User.find_by_id(params[:user_id])
+		
+		if !params[:filename].nil?
+			uploaded_photo = params[:filename]
+			name = uploaded_photo.original_filename + @message.date_time.to_s.gsub(/\W+/,"")
+			url = File.new('public/images', name)
+			File.open(url, 'w+') do |file|
+				file.write(uploaded_photo.read)
+			end
+			@message.photo_url = url
+
+			@photo_msg = @message.user.photo
+			if not @photo_msg.nil?
+				@photo_msg.destroy
+			end
+			@photo_msg = _create_photo_msg(@message)
+			@photo_msg.user = @message.user
+			@photo_msg.event = @message.event
+			@photo_msg.save
+
+		end
+		if @message.valid?
+			@message.save
+			render json: {status: 200, note: "OK", message_id: @message.id, url: @message.photo_url}, status: 200 and return
 		else
 			render json: {status: 403, note: "Message Error"}, status: 403 and return
 		end
